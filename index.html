@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RatingUI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="info">
+            <div class="emoji">💖</div>
+            <div class="status">Feedback</div>
+        </div>
+        <div class="stars">
+            <div class="star" data-rate="5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                </polygon>
+              </svg>
+            </div>
+            <div class="star" data-rate="4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                </polygon>
+              </svg>
+            </div>
+            <div class="star" data-rate="3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                </polygon>
+              </svg>
+            </div>
+            <div class="star" data-rate="2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                </polygon>
+              </svg>
+            </div>
+            <div class="star" data-rate="1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                </polygon>
+              </svg>
+            </div>
+          </div>
+    </div>
+    <script>
+        const stars = document.querySelectorAll('.star');
+        const emojiEl = document.querySelector('.emoji');
+        const statusEl = document.querySelector('.status');
+        const defaultRatingIndex = 0;
+        let currentRatingIndex = 0;
+        const ratings = [
+            {emoji: "💖", status: "Rating"},
+            {emoji: "😡", status: "Very Bad"},
+            {emoji: "☹️", status: "Bad"},
+            {emoji: "🙂", status: "Good"},
+            {emoji: "😁", status: "Very Good"},
+            {emoji: "🥳", status: "Excellent"},
+        ]
+
+        const setRating = (index) => {
+            stars.forEach(star => star.classList.remove('selected'));
+            if(index > 0 && index <= stars.length) {
+                document.querySelector(`[data-rate="${index}"]`).classList.add('selected');
+               
+            }
+            emojiEl.innerHTML = ratings[index].emoji;
+                statusEl.innerHTML = ratings[index].status;
+        }
+
+        const checkSelectedStar = (star) => {
+          if(parseInt(star.getAttribute("data-rate")) === currentRatingIndex) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+
+        const resetRating = () => {
+          currentRatingIndex = defaultRatingIndex;
+          setRating(defaultRatingIndex);
+          
+        }
+
+        stars.forEach((star) => {
+            star.addEventListener('click', () => {
+
+              if(checkSelectedStar(star)) {
+                resetRating();
+                return;
+              }
+
+                const index = parseInt(star.getAttribute("data-rate"));
+                currentRatingIndex = index;
+                setRating(index);
+            });
+
+            star.addEventListener('mouseover', () => {
+              const index = parseInt(star.getAttribute("data-rate"));
+              setRating(index);
+            });
+
+            star.addEventListener('mouseout', () => {
+              setRating(currentRatingIndex);
+            });
+        })
+    </script>
+</body>
+</html>
